@@ -45,7 +45,7 @@ class SuratkeluarController extends Controller
 
     public function inputklr(){
          $tertuju = User::all();
-        return view ('suratklr\inputsuratklr',compact('tertuju'));
+        return view ('suratklr.inputsuratklr',compact('tertuju'));
     }
 
       public function prosesinputklr(Request $_request){
@@ -90,7 +90,7 @@ class SuratkeluarController extends Controller
 
     public function validas ($id){
         $post = DB::table('suratkeluar')->where('id', $id)->first();
-        return view ('suratklr\validasi',compact('post'));
+        return view ('suratklr.validasi',compact('post'));
     }
 
     public function upvalidas (Request $_request, $id){
@@ -121,7 +121,7 @@ class SuratkeluarController extends Controller
     public function surat($id){
 
         $lihat = DB::table('suratkeluar')->where('id', $id)->first();
-        return view ('suratklr\surat',compact('lihat'));
+        return view ('suratklr.surat',compact('lihat'));
     }
 
     public function template(){
@@ -132,11 +132,13 @@ class SuratkeluarController extends Controller
     public function prosestemplate(Request $_request){
   $date = Carbon::today()->toDateString();
       $dokumen = $_request->file('file');
+      $jenis = $_request->jenis_surat;
       $nama_file = $_request->file('file')->getClientOriginalName();
       $nama_dokumen = $nama_file.$date.'.'.$_request->file('file')->getClientOriginalExtension();
       $dokumen->move('templates/',$nama_dokumen);
            DB::table('template')->insert([
                'file' => $nama_dokumen,
+               'jenis_surat' => $jenis,
                'namasurat' =>  $nama_file,
            ]);
      return redirect ('template')->with('status','Data Berhasil Disimpan');
