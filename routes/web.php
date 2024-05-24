@@ -50,7 +50,7 @@ Route::post('ttdprofile/{id}',[ProfileController::class, 'uploadttd']);
 
 // -----------------Surat Keluar Route-------------------------
 Route::get('suratkeluar', [SuratkeluarController::class, 'index']);
-Route::get('surat/{id}',[SuratkeluarController::class, 'surat']);
+Route::get('surat/{id}', [SuratkeluarController::class, 'lihatSurat']);
 Route::get('template',[SuratkeluarController::class, 'template']);
 Route::post('template', [SuratkeluarController::class, 'prosestemplate']);
 Route::get('inputsuratklr', [SuratkeluarController::class, 'inputklr']);

@@ -11,7 +11,10 @@ Use \Carbon\Carbon;
 use Illuminate\Support\Str;
 use Auth;
 use File;
+use setasign\Fpdi\Fpdi;
 use App\Models\User;
+use App\Models\suratkeluar;
+use Illuminate\Support\Facades\Storage;
 
 class SuratkeluarController extends Controller
 {
@@ -142,5 +145,27 @@ class SuratkeluarController extends Controller
                'namasurat' =>  $nama_file,
            ]);
      return redirect ('template')->with('status','Data Berhasil Disimpan');
+    }
+
+    public function lihatSurat($id)
+    {
+        $surat = Suratkeluar::findOrFail($id);
+
+        $filePath = public_path('uploads/' . $surat->file);
+        $ttdPath = public_path('image/ttd/' . $surat->ttd);
+
+        $pdf = new FPDI();
+        $pdf->AddPage();
+        $pdf->setSourceFile($filePath);
+        $tplIdx = $pdf->importPage(1);
+        $pdf->useTemplate($tplIdx);
+
+        // Tentukan koordinat untuk tanda tangan
+        $x = 150;
+        $y = 250;
+        $pdf->Image($ttdPath, $x, $y, 30, 30);
+
+        return response($pdf->Output('S', 'surat_ditandatangani.pdf'), 200)
+            ->header('Content-Type', 'application/pdf');
     }
 }

@@ -294,7 +294,7 @@
                     </td>
                       <td>{{$item->komen}}</td>
                     <td>
-                    <a class="btn btn-primary bi bi-collection" href="{{url('surat/'.$item->id)}}"> Lihat</a>
+                    <a class="btn btn-primary bi bi-collection" href="{{ url('surat/' . $item->id) }}">Lihat</a>
                       @if(Auth::user()->role=='Karo')
                     <a href="{{url('validasi/'.$item->id)}}" class="btn btn-warning"> Validasi</a>
                      @endif
